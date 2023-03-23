@@ -32,8 +32,6 @@ $(document).ready(function () {
 
 
 
-
-
   function evaluatePlannerColors() {
     // TODO: Add code to apply the past, present, or future class to each time
     // block by comparing the id to the current hour. HINTS: How can the id
@@ -62,62 +60,68 @@ $(document).ready(function () {
       const plannerHourID = document.getElementById(`hour-${i}`);
       const plannerHour = parseInt(plannerHourID.id.split("-")[1]);
       // console.log ("plannerHour is", plannerHour);
-      debugger;
 
       if (currentHour > plannerHour) {
         // Add past class if current hour is greater than planner hour
         plannerHourID.children[1].classList.add("past");
-      } else if (currentHour == plannerHour) {       
+      } else if (currentHour == plannerHour) {
         // Add present class if current hour is equal to planner hour
         plannerHourID.children[1].classList.add("present");
-      } else {      
+      } else {
         // Add future class if current hour is less than plannerr hour
         plannerHourID.children[1].classList.add("future");
-      }
-    }
-
-
-
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
-
-    // for (let i = 9; i <= 17; i++) {
-    //   const storedData = JSON.parse(localStorage.getItem(`hour-${i}`));
-    //   if (storedData && storedData.userInput) {
-    //     const textarea = document.getElementById(`hour-${i}`);
-    //     textarea.value = storedData.userInput;
-    //   }
-    // }
-
-    for (let i = startWorkDay; i <= endWorkDay; i++) {
-      const storedData = (localStorage.getItem(`hour-${i}`));
-      if (storedData && storedData.userInput) {
-        $(`#hour-${i}`).val(storedData.userInput);
-        //div.children[2]  left off here
       }
     }
   } // END evaluatePlannerColors
 
 
 
+    function getUserData () {
+    // TODO: Add code to get any user input that was saved in localStorage and set
+    // the values of the corresponding textarea elements. HINT: How can the id
+    // attribute of each time-block be used to do this?
+    for (let i = startWorkDay; i <= endWorkDay; i++) {
+      const storedData = (localStorage.getItem(`hour-${i}`));
+      // debugger;
+      // if (storedData && storedData.userInput) {
+      if (storedData != null) {
+        console.log("storedData is", storedData);
+        // Send the data to the textarea element 
+        // textarea is a child of <div> thaht has #hour-5
+        // $("#hour-4").find('.textarea').val("hello");
+        $('#hour-' + i).find('.textarea').val(storedData);
+        // $('#hour-${i}').textarea(storedData);
+        // $(`#hour-${i}`).val(storedData.userInput);
+        // let output = $('#hour-${i}').val(storedData.userInput);
+
+        // console.log ("output is", output);
+      }
+    }
+  } // END getUserData
+
+
 
   // Update the planner color coding every minute
-  var hourInterval = setInterval(function() {
+  // var hourInterval = 
+ setInterval(function () {
     console.log("Checking Time");
     evaluatePlannerColors();
-  
-  1000});
+    getUserData();
+  },1000);
   // evaluatePlannerColors();
-
-
 
 
 
   // TODO: Add code to display the current date in the header of the page.
   var today = dayjs();
   $('#currentDay').text(today.format('dddd, MMM D, YYYY'));
+
+  function init() {
+    localStorage.clear();
+    clearInterval(time);
+  }
+
+  // init();
 
 }); //END OF document.ready WRAPPER
 
