@@ -1,15 +1,12 @@
-src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
-crossorigin="anonymous"
-
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(document).ready(function() {
+console.log("Code executing")
+$(document).ready(function () {
 
+  const startWorkDay = 9;
+  const endWorkDay = 21;
 
-
-$(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -17,69 +14,127 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-
   // Listen for saveBtn
-$(".saveBtn").on("click", function() {
-  // Pull user text from textarea
-  var userInput = $(this).siblings(".description").val();
-  // Get the id of the containing time-block element
-  var blockId = $(this).parent().attr("id");
-  // Save the user input to local storage using the blockId as a key
-  localStorage.setItem(blockId, userInput);
-});
+  $(".saveBtn").on("click", function () {
+    console.log("Button clicked");
+    // User has entered data into one of the timeblocks and clickced Save
+    // Pull the data (sibling element) next to the button element
+    // All the save buttons  have a sibling text area with class "description"
+    var userInput = $(this).siblings(".description").val();
+    console.log("user Input is", userInput);
+    // Get id of the containing time-block element
+    // the parent is a div with a unique hour-# id. The id is the unique hour
+    var id = $(this).parent().attr("id");
+    // Save the user input to local storage using the id as a key
+    // EX: hour-9 where id=9 and indicates 9am
+    localStorage.setItem(id, userInput);
+  });
 
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
 
-const now = dayjs(); // Get the current time
 
-console.log("Current time is:", now.format('h:mm A')); // Print out the current time
 
-time = now.format('HH:mm:ss');
-console.log ("Current time is", time);
 
-currentHour = now.format('HH');
-console.log ("Current hour is", currentHour);
+  function evaluatePlannerColors() {
+    // TODO: Add code to apply the past, present, or future class to each time
+    // block by comparing the id to the current hour. HINTS: How can the id
+    // attribute of each time-block be used to conditionally add or remove the
+    // past, present, and future classes? How can Day.js be used to get the
+    // current hour in 24-hour time?
+    //
 
-// Cycle thru id's in HTML for blocks of hour-9 through hour-17
-// If currrentHour>now, set attribute to class = "past"
-// If  currrentHour=now, set attribute to class = "present"
-// If currrentHour>now, set attribute to class "future"
-for (let i = 9; i <= 17; i++) {
-  const timeBlock = document.getElementById(`hour-${i}`);
-  const blockHour = parseInt(timeBlock.id.split("-")[1]);
-  console.log ("blockHour is", blockHour);
+    // let now = dayjs(); 
+    // Get the current time
+    console.log("Current time is:", dayjs().format('h:mm a')); // Print out the current time
+    time = dayjs().format('HH:mm:ss');
+    console.log("Current time is", time);
 
-  // Add past class if current hour is greater than block hour
-  if (currentHour > blockHour) {
-    timeBlock.children[1].classList.add("past");
-    console.log("Applying past class");
-  }
+    currentHour = dayjs().format("HH");
+    console.log("Current hour is", currentHour);
 
-  // Add present class if current hour is equal to block hour
-  else if (currentHour === blockHour) {
-    timeBlock.children[1].classList.add("present");
-  }
+    // Cycle thru id's in HTML for blocks of hour-9 through hour-17
+    // If currrentHour > plannerHour, set attribute class = "past" - grey
+    // If  currrentHour == now, set attribute class = "present" - red
+    // If currrentHour>now, set attribute class "future" - green
+    // 9-17 is 9am-5pm, use 21 for testing
+    for (let i = startWorkDay; i <= endWorkDay; i++) {
+      // Select each div in HTML for each hour, get the id
+      // Ex:  id=hour-10, retreive 10
+      const plannerHourID = document.getElementById(`hour-${i}`);
+      const plannerHour = parseInt(plannerHourID.id.split("-")[1]);
+      // console.log ("plannerHour is", plannerHour);
+      debugger;
 
-  // Add future class if current hour is less than block hour
-  else {
-    timeBlock.children[1].classList.add("future");
-  }
-}
+      if (currentHour > plannerHour) {
+        // Add past class if current hour is greater than planner hour
+        plannerHourID.children[1].classList.add("past");
+      } else if (currentHour == plannerHour) {       
+        // Add present class if current hour is equal to planner hour
+        plannerHourID.children[1].classList.add("present");
+      } else {      
+        // Add future class if current hour is less than plannerr hour
+        plannerHourID.children[1].classList.add("future");
+      }
+    }
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-});
+
+
+    // TODO: Add code to get any user input that was saved in localStorage and set
+    // the values of the corresponding textarea elements. HINT: How can the id
+    // attribute of each time-block be used to do this?
+    //
+
+    // for (let i = 9; i <= 17; i++) {
+    //   const storedData = JSON.parse(localStorage.getItem(`hour-${i}`));
+    //   if (storedData && storedData.userInput) {
+    //     const textarea = document.getElementById(`hour-${i}`);
+    //     textarea.value = storedData.userInput;
+    //   }
+    // }
+
+    for (let i = startWorkDay; i <= endWorkDay; i++) {
+      const storedData = (localStorage.getItem(`hour-${i}`));
+      if (storedData && storedData.userInput) {
+        $(`#hour-${i}`).val(storedData.userInput);
+        //div.children[2]  left off here
+      }
+    }
+  } // END evaluatePlannerColors
+
+
+
+
+  // Update the planner color coding every minute
+  var hourInterval = setInterval(function() {
+    console.log("Checking Time");
+    evaluatePlannerColors();
+  
+  1000});
+  // evaluatePlannerColors();
+
+
+
 
 
   // TODO: Add code to display the current date in the header of the page.
-var today = dayjs();
-$('#currentDay').text(today.format('dddd, MMM D, YYYY'));
+  var today = dayjs();
+  $('#currentDay').text(today.format('dddd, MMM D, YYYY'));
 
-})
+}); //END OF document.ready WRAPPER
+
+
+// no need to parse or stringify
+
+// Tucker gave us this on Monday night
+// $(".time-block").each(function () {
+//   const timeBlock = $(this);
+  // const hour = timeBlock.attr("id").split("-").pop();
+  // const hour = timeBlock
+    // hour-9
+    // .attr("id")
+    // 'hour', '9'
+    // .split("-")
+    //returns 9
+    // .pop();
+
+  // timeBlock.addClass("future")
+// })
