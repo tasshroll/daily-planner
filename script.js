@@ -76,28 +76,50 @@ $(document).ready(function () {
 
 
 
-    function getUserData () {
+    function updateFromLocalStorage () {
     // TODO: Add code to get any user input that was saved in localStorage and set
     // the values of the corresponding textarea elements. HINT: How can the id
     // attribute of each time-block be used to do this?
+
     for (let i = startWorkDay; i <= endWorkDay; i++) {
-      const storedData = (localStorage.getItem(`hour-${i}`));
+      let hour = ('hour-'+i);
+      console.log("hour block is ", hour);
+      const storedData = (localStorage.getItem(hour));
+      console.log("stored data for ", hour, " is ", storedData);
+      // Render to the text area for the hour block
+      // $("#hour").children("textarea").eq(0).val(storedData);
+      // $("#hour-9").children("textarea").eq(0).val(localStorage.getItem('hour-9'));
+      $("#" + hour).children("textarea").eq(0).val(storedData);
+
+    }
+  } // END updateFromLocalStorage
+
+
+
       // debugger;
       // if (storedData && storedData.userInput) {
-      if (storedData != null) {
-        console.log("storedData is", storedData);
+
+
+      // if (storedData != null) {
+        // console.log("storedData is", storedData);
+
         // Send the data to the textarea element 
         // textarea is a child of <div> thaht has #hour-5
         // $("#hour-4").find('.textarea').val("hello");
-        $('#hour-' + i).find('.textarea').val(storedData);
+
+
+
+//
+        // $('#hour-' + i).find('.textarea').val(storedData);
+//
+
+
+
         // $('#hour-${i}').textarea(storedData);
         // $(`#hour-${i}`).val(storedData.userInput);
         // let output = $('#hour-${i}').val(storedData.userInput);
 
         // console.log ("output is", output);
-      }
-    }
-  } // END getUserData
 
 
 
@@ -106,8 +128,8 @@ $(document).ready(function () {
  setInterval(function () {
     console.log("Checking Time");
     evaluatePlannerColors();
-    getUserData();
-  },1000);
+    updateFromLocalStorage();
+  },6000);
   // evaluatePlannerColors();
 
 
@@ -119,6 +141,7 @@ $(document).ready(function () {
   function init() {
     localStorage.clear();
     clearInterval(time);
+    updateFromLocalStorage;
   }
 
   // init();
@@ -129,7 +152,11 @@ $(document).ready(function () {
 // no need to parse or stringify
 
 // Tucker gave us this on Monday night
+// executes this code on each time block on the page
 // $(".time-block").each(function () {
+//   console.log(this);
+// });
+
 //   const timeBlock = $(this);
   // const hour = timeBlock.attr("id").split("-").pop();
   // const hour = timeBlock
