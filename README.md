@@ -3,7 +3,7 @@ App for a daily planner that allows custom user input for events
 
 A simple calendar application that allows the user to save events for each hour of the day. This app runs in the browser and feature dynamically updated HTML and CSS, powered by jQuery.
 
-# daily-planner Webpage
+# Webpage
 
 Link to Deployed Application;
 https://tasshroll.github.io/daily-planner
@@ -11,10 +11,9 @@ https://tasshroll.github.io/daily-planner
 Link to GitHub repository:
 https://github.com/tasshroll/daily-planner
 
+# Screenshot
 SCREENSHOTS of application
-
-Start Page
-![Screenshot of application page.](Assets/daily-planner.png)
+![Screenshot of application page.](Assets/img/daily-planner.png)
 
 VIDEO of usage
 ![Video of application use](Assets/img/daily-planner-video.mp4)
