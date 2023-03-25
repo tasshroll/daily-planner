@@ -3,7 +3,6 @@ App for a daily planner that allows custom user input for events
 
 A simple calendar application that allows the user to save events for each hour of the day. This app runs in the browser and feature dynamically updated HTML and CSS, powered by jQuery.
 
-
 # daily-planner Webpage
 
 Link to Deployed Application;
@@ -15,7 +14,10 @@ https://github.com/tasshroll/daily-planner
 SCREENSHOTS of application
 
 Start Page
-![Screenshot of application start page.](./Assets/CodeQuiz-StartPage.png)
+![Screenshot of application page.](Assets/daily-planner.png)
+
+VIDEO of usage
+![Video of application use](Assets/img/daily-planner-video.mp4)
 
 ## Description
 This Application generates simple daily calendar for the times blocks of 9AM to 5PM. The userr can save save events for each hour of the day. The user data is storerd in local storage and retained when the page is refreshed. The application will update the date and hour each minute. Time blocks in the past are colored grey, the current time block is red, and future time blocks are green.
